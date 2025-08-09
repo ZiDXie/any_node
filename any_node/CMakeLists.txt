@@ -100,7 +100,6 @@ add_compile_options(-Wall -Wextra -Wpedantic)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 set(PACKAGE_DEPENDENCIES
-  acl_config_cpp
   any_worker
   rclcpp
   signal_handler
@@ -116,17 +115,18 @@ endforeach()
 ## Build ##
 ###########
 
-add_library(${PROJECT_NAME} SHARED
-  src/Node.cpp
-)
+add_library(${PROJECT_NAME} INTERFACE)
+
 target_include_directories(
   ${PROJECT_NAME}
-  PUBLIC
+  INTERFACE
     "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
     "$<INSTALL_INTERFACE:include/${PROJECT_NAME}>"
 )
+
 ament_target_dependencies(${PROJECT_NAME}
-  ${PACKAGE_DEPENDENCIES}
+  INTERFACE
+    ${PACKAGE_DEPENDENCIES}
 )
 
 #############
